@@ -13,12 +13,19 @@ const BUY_ITEM = 'BUY_ITEM'
 const REMOVE_FEATURE = 'REMOVE_FEATURE'
 
 // action creators
-const buyItem = item => ({
+export const buyItem = item => ({
   type: BUY_ITEM,
   payload: {
     item
   }
 })
+
+// const removeFeature = id => ({
+//   type: REMOVE_FEATURE,
+//   payload: {
+//     id
+//   }
+// });
 
 // reducer
 const initialState = {
@@ -41,7 +48,12 @@ const initialState = {
 const storeReducer = (state = initialState, action) => {
   switch (action.type) {
     case BUY_ITEM:
-      return [...state.car.features, action.payload]
+      console.log(action.payload.item)
+      return state
+    case REMOVE_FEATURE:
+      return {
+        ...state
+      }
     default:
       return state
   }

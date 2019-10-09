@@ -1,4 +1,6 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { buyItem } from '../index'
 
 const AdditionalFeature = props => {
   return (
@@ -10,4 +12,11 @@ const AdditionalFeature = props => {
   )
 }
 
-export default AdditionalFeature
+const mapDispatchToProps = dispatch => ({
+  buyItem: dispatch(buyItem({ type: 'BUY_ITEM' }))
+})
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(AdditionalFeature)
