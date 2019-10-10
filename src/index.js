@@ -20,12 +20,12 @@ export const buyItem = item => ({
   }
 })
 
-// const removeFeature = id => ({
-//   type: REMOVE_FEATURE,
-//   payload: {
-//     id
-//   }
-// });
+export const removeFeature = item => ({
+  type: REMOVE_FEATURE,
+  payload: {
+    item
+  }
+})
 
 // reducer
 const initialState = {
@@ -48,11 +48,34 @@ const initialState = {
 const storeReducer = (state = initialState, action) => {
   switch (action.type) {
     case BUY_ITEM:
-      console.log(action.payload.item)
-      return state
-    case REMOVE_FEATURE:
+      // check if item already exists in cart
+      const itemToCheck = action.payload.item
+      const features = state.car.features
+      if (features.includes(itemToCheck)) return
       return {
-        ...state
+        ...state,
+        additionalPrice: state.additionalPrice + action.payload.item.price,
+        car: {
+          ...state.car,
+          features: [...state.car.features, action.payload.item]
+        }
+      }
+    case REMOVE_FEATURE:
+      // filter out feature
+      const removedFeature = state.car.features.filter(
+        feature => feature.id !== action.payload.item.id
+      )
+      console.log(removedFeature)
+      return {
+        ...state,
+        additionalPrice: state.additionalPrice - action.payload.item.price,
+        car: {
+          ...state.car,
+          // price: state.car.price - action.payload.item.price,
+          features: state.car.features.filter(
+            feature => feature.id !== action.payload.item.id
+          )
+        }
       }
     default:
       return state
